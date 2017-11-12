@@ -1,0 +1,13 @@
+_mycomplete_()
+{
+  local word="${COMP_WORDS[COMP_CWORD]}"
+  if [[ "$COMP_CWORD" > 1 ]]; then
+    COMPREPLY=()
+  else
+    COMPREPLY=($(compgen -f -X "!*.bak*" | \
+	egrep "$word.*\.bak[0-9]*$" | \
+	sed 's/^\.\(.*\)\.bak[0-9]*$/\1/'))
+  fi
+}
+
+complete -F _mycomplete_ restore-backup
